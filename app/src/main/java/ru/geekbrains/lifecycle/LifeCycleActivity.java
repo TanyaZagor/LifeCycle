@@ -1,6 +1,7 @@
 package ru.geekbrains.lifecycle;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,16 @@ public class LifeCycleActivity extends AppCompatActivity {
             instanceState = "Повторный запуск!";
 
         infoMsg(instanceState + " - onCreate()");
+
+        LifeCycleFragment fragment = (LifeCycleFragment) getSupportFragmentManager().findFragmentById(R.id.frameLayout);
+
+        if (fragment == null) {
+            fragment = new LifeCycleFragment();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.frameLayout, fragment);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.commit();
+        }
 
         // Получить Presenter
         final LifeCyclePresenter presenter = LifeCyclePresenter.getInstance();
